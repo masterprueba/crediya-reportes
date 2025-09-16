@@ -1,44 +1,23 @@
 package co.com.crediya.reportes.config;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.*;
 
-public class UseCasesConfigTest {
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-    @Test
-    void testUseCaseBeansExist() {
-        try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestConfig.class)) {
-            String[] beanNames = context.getBeanDefinitionNames();
+@SpringBootTest
+@ComponentScan(basePackages = {"co.com.crediya.reportes.usecase", "co.com.crediya.reportes.securityadapter"})
+ class UseCasesConfigTest {
 
-            boolean useCaseBeanFound = false;
-            for (String beanName : beanNames) {
-                if (beanName.endsWith("UseCase")) {
-                    useCaseBeanFound = true;
-                    break;
-                }
-            }
+    @Autowired
+    private ApplicationContext context;
 
-            assertTrue(useCaseBeanFound, "No beans ending with 'Use Case' were found");
+        @Test
+        void testUseCaseBeansExist() {
+            assertNotNull(context.getBean("consultarTotalAprobadasUseCase"));
+            assertNotNull(context.getBean("procesarSolicitudAprobadaUseCase"));
         }
-    }
-
-    @Configuration
-    @Import(UseCasesConfig.class)
-    static class TestConfig {
-
-        @Bean
-        public MyUseCase myUseCase() {
-            return new MyUseCase();
-        }
-    }
-
-    static class MyUseCase {
-        public String execute() {
-            return "MyUseCase Test";
-        }
-    }
 }

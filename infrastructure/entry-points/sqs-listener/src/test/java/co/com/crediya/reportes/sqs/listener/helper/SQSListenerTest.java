@@ -2,6 +2,9 @@ package co.com.crediya.reportes.sqs.listener.helper;
 
 import co.com.crediya.reportes.sqs.listener.SQSProcessor;
 import co.com.crediya.reportes.sqs.listener.config.SQSProperties;
+import co.com.crediya.reportes.sqs.listener.mapper.SolicitudAprobadasMapper;
+import co.com.crediya.reportes.usecase.procesarsolicitudaprobada.ProcesarSolicitudAprobadaUseCase;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -28,20 +31,16 @@ class SQSListenerTest {
 
     @Mock
     private SQSProperties sqsProperties;
+    @Mock
+    private  ProcesarSolicitudAprobadaUseCase procesarSolicitudAprobadaUseCase;
+    @Mock
+    private  ObjectMapper objectMapper;
+    @Mock
+    private  SolicitudAprobadasMapper mapper;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-
-        var sqsProperties = new SQSProperties(
-                "us-east-1",
-                "http://localhost:4566",
-                "http://localhost:4566/00000000000/queueName",
-                20,
-                30,
-                10,
-                1
-        );
 
         var message = Message.builder().body("message").build();
         var deleteMessageResponse = DeleteMessageResponse.builder().build();
@@ -58,7 +57,7 @@ class SQSListenerTest {
         var sqsListener = SQSListener.builder()
                 .client(asyncClient)
                 .properties(sqsProperties)
-                .processor(new SQSProcessor())
+                .processor(new SQSProcessor(procesarSolicitudAprobadaUseCase, objectMapper, mapper))
                 .operation("operation")
                 .build();
 
