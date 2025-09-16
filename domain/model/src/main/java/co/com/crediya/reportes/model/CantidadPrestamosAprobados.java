@@ -9,7 +9,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class CantidadPrestamosAprobados {
-    String id_aprobadas;
+    String idAprobadas;
     long total;
     String fechaActualiza; // formato dynamodb ejemplo: 2023-10-10T10:10:10
 

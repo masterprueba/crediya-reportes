@@ -7,7 +7,7 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
 @DynamoDbBean
 public class PrestamosAprobadosEntity {
 
-    private String id_aprobadas;
+    private String idAprobadas;
     private Long total;
     private String fechaActualiza;
 
@@ -15,20 +15,20 @@ public class PrestamosAprobadosEntity {
     public PrestamosAprobadosEntity() {
     }
 
-    public PrestamosAprobadosEntity(String id_aprobadas, Long total, String fechaActualiza) {
-        this.id_aprobadas = id_aprobadas;
+    public PrestamosAprobadosEntity(String idAprobadas, Long total, String fechaActualiza) {
+        this.idAprobadas = idAprobadas;
         this.total = total;
         this.fechaActualiza = fechaActualiza;
     }
 
     @DynamoDbPartitionKey
     @DynamoDbAttribute("id_aprobadas")
-    public String getId_aprobadas() {
-        return id_aprobadas;
+    public String getIdAprobadas() {
+        return idAprobadas;
     }
 
-    public void setId_aprobadas(String id_aprobadas) {
-        this.id_aprobadas = id_aprobadas;
+    public void setIdAprobadas(String idAprobadas) {
+        this.idAprobadas = idAprobadas;
     }
 
     @DynamoDbAttribute("total")

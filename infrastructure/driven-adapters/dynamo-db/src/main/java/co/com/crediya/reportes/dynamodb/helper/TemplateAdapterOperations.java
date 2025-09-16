@@ -22,20 +22,17 @@ public abstract class TemplateAdapterOperations<E, K, V> {
     private final Function<V, E> toEntityFn;
     protected ObjectMapper mapper;
     private final DynamoDbAsyncTable<V> table;
-    private final DynamoDbAsyncIndex<V> tableByIndex;
 
     @SuppressWarnings("unchecked")
     protected TemplateAdapterOperations(DynamoDbEnhancedAsyncClient dynamoDbEnhancedAsyncClient,
                                         ObjectMapper mapper,
                                         Function<V, E> toEntityFn,
-                                        String tableName,
-                                        String... index) {
+                                        String tableName) {
         this.toEntityFn = toEntityFn;
         this.mapper = mapper;
         ParameterizedType genericSuperclass = (ParameterizedType) this.getClass().getGenericSuperclass();
         this.dataClass = (Class<V>) genericSuperclass.getActualTypeArguments()[2];
         table = dynamoDbEnhancedAsyncClient.table(tableName, TableSchema.fromBean(dataClass));
-        tableByIndex = index.length > 0 ? table.index(index[0]) : null;
     }
 
     public Mono<E> save(E model) {
@@ -67,19 +64,6 @@ public abstract class TemplateAdapterOperations<E, K, V> {
         // Si se pasa índice, usa el índice
         DynamoDbAsyncIndex<V> queryIndex = table.index(index[0]);
         SdkPublisher<Page<V>> pagePublisher = queryIndex.query(queryExpression);
-        return listOfModel(pagePublisher);
-    }
-
-    /**
-     * @return Mono<List < E>>
-     * @implNote Bancolombia does not suggest the Scan function for DynamoDB tables due to the low performance resulting
-     * from the design of the database engine (Key value). Optimize the query using Query, GetItem or BatchGetItem
-     * functions, and if necessary, consider the Single-Table Design pattern for DynamoDB.
-     * @deprecated
-     */
-    @Deprecated(forRemoval = true)
-    public Mono<List<E>> scan() {
-        PagePublisher<V> pagePublisher = table.scan();
         return listOfModel(pagePublisher);
     }
 

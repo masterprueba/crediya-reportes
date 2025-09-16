@@ -59,7 +59,7 @@ public class CantidadPrestamosAprobadosAdapter extends TemplateAdapterOperations
         log.info("Incrementando la cantidad de préstamos aprobados...");
         return snapshot()
                 .flatMap(existing -> {
-                    existing.setId_aprobadas(PK_VALUE);
+                    existing.setIdAprobadas(PK_VALUE);
                     existing.setTotal(existing.getTotal() + 1);
                     existing.setFechaActualiza(Instant.now().toString());
                     return save(existing);

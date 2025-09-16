@@ -28,7 +28,7 @@ class ConsultarTotalAprobadasUseCaseTest {
     @Test
     void consultarAprobadas() {
         CantidadPrestamosAprobados cantidad = CantidadPrestamosAprobados.builder()
-                .id_aprobadas("test-id")
+                .idAprobadas("test-id")
                 .total(10L)
                 .fechaActualiza("2023-10-10T10:10:10")
                 .build();
