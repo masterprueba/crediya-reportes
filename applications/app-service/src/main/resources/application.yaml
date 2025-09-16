@@ -16,8 +16,8 @@ spring:
     active: local
 entrypoint:
   sqs:
-    region: "us-east-2"
-    queueUrl: "https://sqs.us-east-2.amazonaws.com/294568841222/reporte_solicitud_aprobada"
+    region: "${SQS_R_A_REGION}"
+    queueUrl: "${SQS_REPORTE_APROBADA}"
     waitTimeSeconds: 20
     maxNumberOfMessages: 10
     visibilityTimeoutSeconds: 10
@@ -64,4 +64,4 @@ resilience4j:
 aws:
   dynamodb:
     endpoint: ""
-  region: "us-east-2"
+  region: "${DYNAMO_R_REGION}"
