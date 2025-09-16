@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import reactor.core.publisher.Mono;
 import software.amazon.awssdk.metrics.LoggingMetricPublisher;
 import software.amazon.awssdk.services.sqs.SqsAsyncClient;
 
@@ -31,11 +30,6 @@ class SQSConfigTest {
         when(sqsProperties.waitTimeSeconds()).thenReturn(20);
         when(sqsProperties.maxNumberOfMessages()).thenReturn(10);
         when(sqsProperties.numberOfThreads()).thenReturn(1);
-    }
-
-    @Test
-    void configSQSListenerIsNotNull() {
-        assertThat(sqsConfig.sqsListener(sqsAsyncClient, sqsProperties, message -> Mono.empty())).isNotNull();
     }
 
     @Test

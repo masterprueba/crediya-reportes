@@ -22,13 +22,6 @@ public class RestConsumer /* implements Gateway from domain */{
                 .bodyToMono(ObjectResponse.class);
     }
 
-// Possible fallback method
-//    public Mono<String> testGetOk(Exception ignored) {
-//        return client
-//                .get() // TODO: change for another endpoint or destination
-//                .retrieve()
-//                .bodyToMono(String.class);
-//    }
 
     @CircuitBreaker(name = "testPost")
     public Mono<ObjectResponse> testPost() {

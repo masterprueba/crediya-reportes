@@ -17,20 +17,28 @@ import java.util.function.Function;
 
 @Log4j2
 @Builder
-public class SQSListener {
+public class SQSListener implements AutoCloseable {
     private final SqsAsyncClient client;
     private final SQSProperties properties;
     private final Function<Message, Mono<Void>> processor;
     private String operation;
+    private ExecutorService service;
 
     public SQSListener start() {
         this.operation = "MessageFrom:" + properties.queueUrl();
-        ExecutorService service = Executors.newFixedThreadPool(properties.numberOfThreads());
+        this.service = Executors.newFixedThreadPool(properties.numberOfThreads());
         Flux<Void> flow = listenRetryRepeat().publishOn(Schedulers.fromExecutorService(service));
         for (var i = 0; i < properties.numberOfThreads(); i++) {
             flow.subscribe();
         }
         return this;
+    }
+
+    @Override
+    public void close() {
+        if (service != null && !service.isShutdown()) {
+            service.shutdown();
+        }
     }
 
     private Flux<Void> listenRetryRepeat() {
