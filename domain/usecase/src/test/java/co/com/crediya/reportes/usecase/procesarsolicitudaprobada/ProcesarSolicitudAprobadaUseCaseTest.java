@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
@@ -41,15 +42,16 @@ class ProcesarSolicitudAprobadaUseCaseTest {
         event.setEventId(UUID.randomUUID().toString());
         event.setSolicitudId("123");
         event.setFechaProcesada(new Date().toString());
+        event.setMontoAprobado(new BigDecimal(1000));
         
         when(eventoProcesadoRepository.marcarSinoProceso(any(SolicitudAprobadasEvent.class))).thenReturn(Mono.just(false));
-        when(reportesCountRepository.increment()).thenReturn(Mono.empty());
+        when(reportesCountRepository.increment(event)).thenReturn(Mono.empty());
 
         useCase.procesar(event)
                 .as(StepVerifier::create)
                 .verifyComplete();
 
-        verify(reportesCountRepository).increment();
+        verify(reportesCountRepository).increment(event);
     }
 
     @Test
@@ -58,6 +60,7 @@ class ProcesarSolicitudAprobadaUseCaseTest {
         event.setEventId(UUID.randomUUID().toString());
         event.setSolicitudId("123");
         event.setFechaProcesada(new Date().toString());
+        event.setMontoAprobado(new BigDecimal(1000));
 
         when(eventoProcesadoRepository.marcarSinoProceso(any(SolicitudAprobadasEvent.class))).thenReturn(Mono.just(true));
 
@@ -65,7 +68,7 @@ class ProcesarSolicitudAprobadaUseCaseTest {
                 .as(StepVerifier::create)
                 .verifyComplete();
 
-        verify(reportesCountRepository, never()).increment();
+        verify(reportesCountRepository, never()).increment(event);
     }
 
     @Test
@@ -74,6 +77,7 @@ class ProcesarSolicitudAprobadaUseCaseTest {
         event.setEventId(UUID.randomUUID().toString());
         event.setSolicitudId("123");
         event.setFechaProcesada(new Date().toString());
+        event.setMontoAprobado(new BigDecimal(1000));
         
         RuntimeException exception = new RuntimeException("Error en base de datos");
         when(eventoProcesadoRepository.marcarSinoProceso(any(SolicitudAprobadasEvent.class))).thenReturn(Mono.error(exception));
@@ -83,6 +87,6 @@ class ProcesarSolicitudAprobadaUseCaseTest {
                 .expectErrorMatches(throwable -> throwable.equals(exception))
                 .verify();
 
-        verify(reportesCountRepository, never()).increment();
+        verify(reportesCountRepository, never()).increment(event);
     }
 }
