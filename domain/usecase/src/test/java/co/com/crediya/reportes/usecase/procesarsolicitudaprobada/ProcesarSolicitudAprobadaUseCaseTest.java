@@ -45,13 +45,13 @@ class ProcesarSolicitudAprobadaUseCaseTest {
         event.setMontoAprobado(new BigDecimal(1000));
         
         when(eventoProcesadoRepository.marcarSinoProceso(any(SolicitudAprobadasEvent.class))).thenReturn(Mono.just(false));
-        when(reportesCountRepository.increment(event.getMontoAprobado())).thenReturn(Mono.empty());
+        when(reportesCountRepository.increment(event)).thenReturn(Mono.empty());
 
         useCase.procesar(event)
                 .as(StepVerifier::create)
                 .verifyComplete();
 
-        verify(reportesCountRepository).increment(event.getMontoAprobado());
+        verify(reportesCountRepository).increment(event);
     }
 
     @Test
@@ -68,7 +68,7 @@ class ProcesarSolicitudAprobadaUseCaseTest {
                 .as(StepVerifier::create)
                 .verifyComplete();
 
-        verify(reportesCountRepository, never()).increment(event.getMontoAprobado());
+        verify(reportesCountRepository, never()).increment(event);
     }
 
     @Test
@@ -87,6 +87,6 @@ class ProcesarSolicitudAprobadaUseCaseTest {
                 .expectErrorMatches(throwable -> throwable.equals(exception))
                 .verify();
 
-        verify(reportesCountRepository, never()).increment(event.getMontoAprobado());
+        verify(reportesCountRepository, never()).increment(event);
     }
 }
