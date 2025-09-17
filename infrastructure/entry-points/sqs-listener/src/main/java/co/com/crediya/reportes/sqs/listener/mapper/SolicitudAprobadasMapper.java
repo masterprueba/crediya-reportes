@@ -11,6 +11,7 @@ public interface SolicitudAprobadasMapper {
     @Mapping(source = "idEvento", target = "eventId")
     @Mapping(source = "idSolicitud", target = "solicitudId")
     @Mapping(source = "fechaDecidido", target = "fechaProcesada")
+    @Mapping(source = "montoAprobado", target = "montoAprobado")
     @Mapping(target = "ttl", ignore = true)
     SolicitudAprobadasEvent toModel(SolicitudAprobadaRequest r);
 }

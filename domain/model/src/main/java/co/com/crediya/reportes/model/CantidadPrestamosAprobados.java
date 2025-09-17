@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 
 @Data
 @Builder
@@ -11,7 +13,8 @@ import lombok.Data;
 public class CantidadPrestamosAprobados {
     String idAprobadas;
     long total;
-    String fechaActualiza; // formato dynamodb ejemplo: 2023-10-10T10:10:10
+    String fechaActualiza;
+    BigDecimal montoTotalAprobado;
 
     public CantidadPrestamosAprobados() {
 

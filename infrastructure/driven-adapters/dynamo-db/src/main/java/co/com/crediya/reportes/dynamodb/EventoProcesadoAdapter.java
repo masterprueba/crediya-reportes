@@ -23,6 +23,7 @@ public class EventoProcesadoAdapter extends TemplateAdapterOperations<SolicitudA
 
     private final Logger log = Loggers.getLogger(EventoProcesadoAdapter.class);
 
+
     public EventoProcesadoAdapter(DynamoDbEnhancedAsyncClient connectionFactory, ObjectMapper mapper) {
         super(connectionFactory, mapper, d -> mapper.map(d, SolicitudAprobadasEvent.class), "eventos_procesados");
     }

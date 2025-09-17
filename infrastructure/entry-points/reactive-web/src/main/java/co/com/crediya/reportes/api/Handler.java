@@ -24,15 +24,15 @@ private final ConsultarTotalAprobadasUseCase useCase;
 private final ReportesResponseMapper reportesResponseMapper;
 
     @Operation(
-            summary = "Cantidad total de prestamos",
-            description = "Obtiene la cantidad total de los prestamos aprobados. " +
+            summary = "Reporte total de prestamos",
+            description = "Obtiene datos totales de los prestamos aprobados. " +
                     "IMPORTANTE: Solo usuarios con rol ADMIN pueden acceder a este endpoint.",
             operationId = "listenGETConsultarTotalAprobadas"
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Obtiene la cantidad total de los prestamos aprobados",
+                    description = "Obtiene reporte de los prestamos aprobados",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ReportesResponseDto.class)

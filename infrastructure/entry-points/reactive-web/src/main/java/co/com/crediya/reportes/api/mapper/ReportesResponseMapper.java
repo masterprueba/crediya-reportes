@@ -9,5 +9,6 @@ import org.mapstruct.Mapping;
 public interface ReportesResponseMapper {
     @Mapping(source = "total", target = "totalAprobadas")
     @Mapping(source = "fechaActualiza", target = "updatedAt")
+    @Mapping(source = "montoTotalAprobado", target = "montoTotalAprobado")
     ReportesResponseDto toResponse( CantidadPrestamosAprobados cantidadPrestamosAprobados);
 }
