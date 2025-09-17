@@ -4,7 +4,6 @@ import co.com.crediya.reportes.dynamodb.entity.PrestamosAprobadosEntity;
 import co.com.crediya.reportes.dynamodb.helper.TemplateAdapterOperations;
 import co.com.crediya.reportes.model.CantidadPrestamosAprobados;
 import co.com.crediya.reportes.model.SolicitudAprobadasEvent;
-import co.com.crediya.reportes.model.exceptions.DomainException;
 import co.com.crediya.reportes.model.gateways.ReportesCountRepository;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
@@ -16,7 +15,6 @@ import software.amazon.awssdk.enhanced.dynamodb.Key;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
@@ -58,9 +56,9 @@ public class CantidadPrestamosAprobadosAdapter extends TemplateAdapterOperations
                 .flatMap(list -> list.stream().findFirst()
                         .map(Mono::just)
                         .orElse(Mono.empty()))
-                .doOnError(error -> {
-                    log.error("Error al obtener el snapshot de la cantidad de préstamos aprobados: {}", error.getMessage());
-                });
+                .doOnError(error ->
+                    log.error("Error al obtener el snapshot de la cantidad de préstamos aprobados: {}", error.getMessage())
+                );
     }
 
     @Override

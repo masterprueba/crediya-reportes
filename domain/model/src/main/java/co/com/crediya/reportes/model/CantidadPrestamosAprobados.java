@@ -17,6 +17,6 @@ public class CantidadPrestamosAprobados {
     BigDecimal montoTotalAprobado;
 
     public CantidadPrestamosAprobados() {
-
+        // Constructor vacío
     }
 }
