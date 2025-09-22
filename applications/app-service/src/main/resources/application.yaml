@@ -1,8 +1,10 @@
 server:
   port: 8082
 spring:
+  main:
+    web-application-type: reactive
   webflux:
-    base-path: "/api/v1"
+    base-path: "/report/api/v1"
   application:
     name: "reportes"
   devtools:
@@ -13,7 +15,7 @@ spring:
       path: "/h2"
   profiles:
     include: null
-    active: local
+    active: pdn
 entrypoint:
   sqs:
     region: "${SQS_R_A_REGION}"
