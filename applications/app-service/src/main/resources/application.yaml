@@ -1,8 +1,10 @@
 server:
   port: 8082
 spring:
+  main:
+    web-application-type: "reactive"
   webflux:
-    base-path: "/api/v1"
+    base-path: "/report/api/v1"
   application:
     name: "reportes"
   devtools:
@@ -13,15 +15,25 @@ spring:
       path: "/h2"
   profiles:
     include: null
-    active: local
+    active: "pdn"
 entrypoint:
   sqs:
     region: "${SQS_R_A_REGION}"
-    queueUrl: "${SQS_REPORTE_APROBADA}"
-    waitTimeSeconds: 20
-    maxNumberOfMessages: 10
-    visibilityTimeoutSeconds: 10
-    numberOfThreads: 1
+    queues:
+      aprobadas:
+        queueUrl: "${SQS_REPORTE_APROBADA}"
+        processorBean: aprobadasProcessor
+        waitTimeSeconds: 20
+        visibilityTimeoutSeconds: 30
+        maxNumberOfMessages: 10
+        numberOfThreads: 2
+      reporteDiario:
+        queueUrl: "${SQS_REPORTE_DIARIO}"
+        processorBean: sqsReporteDiarioProcessor
+        waitTimeSeconds: 20
+        visibilityTimeoutSeconds: 30
+        maxNumberOfMessages: 10
+        numberOfThreads: 2
 management:
   endpoints:
     web:
@@ -40,6 +52,10 @@ adapter:
   restconsumer:
     timeout: 5000
     url: "${SERVICE_AUTH_URL}"
+  sqs:
+    region: "us-east-2"
+    queueUrl: "${SQS_NOTIFICACION}"
+    to: "${EMAIL_TO_ADMIN}"
 resilience4j:
   circuitbreaker:
     instances:

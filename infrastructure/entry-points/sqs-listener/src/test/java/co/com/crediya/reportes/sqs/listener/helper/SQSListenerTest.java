@@ -1,6 +1,6 @@
 package co.com.crediya.reportes.sqs.listener.helper;
 
-import co.com.crediya.reportes.sqs.listener.SQSProcessor;
+import co.com.crediya.reportes.sqs.listener.SQSAprobadosProcesssor;
 import co.com.crediya.reportes.sqs.listener.config.SQSProperties;
 import co.com.crediya.reportes.sqs.listener.mapper.SolicitudAprobadasMapper;
 import co.com.crediya.reportes.usecase.procesarsolicitudaprobada.ProcesarSolicitudAprobadaUseCase;
@@ -57,7 +57,7 @@ class SQSListenerTest {
         var sqsListener = SQSListener.builder()
                 .client(asyncClient)
                 .properties(sqsProperties)
-                .processor(new SQSProcessor(procesarSolicitudAprobadaUseCase, objectMapper, mapper))
+                .processor(new SQSAprobadosProcesssor(procesarSolicitudAprobadaUseCase, objectMapper, mapper))
                 .operation("operation")
                 .build();
 

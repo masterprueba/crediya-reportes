@@ -1,6 +1,7 @@
 package co.com.crediya.reportes.config;
 
 import co.com.crediya.reportes.model.gateways.EventoProcesadoRepository;
+import co.com.crediya.reportes.model.gateways.NotificacionRepository;
 import co.com.crediya.reportes.model.gateways.ReportesCountRepository;
 import co.com.crediya.reportes.usecase.consultartotalaprobadas.ConsultarTotalAprobadasUseCase;
 import co.com.crediya.reportes.usecase.procesarsolicitudaprobada.ProcesarSolicitudAprobadaUseCase;
@@ -19,8 +20,8 @@ public class UseCasesConfig {
 
 
         @Bean
-        public ConsultarTotalAprobadasUseCase consultarTotalAprobadasUseCase(ReportesCountRepository port) {
-                return new ConsultarTotalAprobadasUseCase(port);
+        public ConsultarTotalAprobadasUseCase consultarTotalAprobadasUseCase(ReportesCountRepository port, NotificacionRepository notificacionRepository) {
+                return new ConsultarTotalAprobadasUseCase(port, notificacionRepository);
         }
 
         @Bean
