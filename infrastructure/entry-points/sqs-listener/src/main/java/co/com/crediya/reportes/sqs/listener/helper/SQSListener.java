@@ -36,8 +36,19 @@ public class SQSListener implements AutoCloseable {
 
     @Override
     public void close() {
-//vacio
+        if (service != null) {
+            service.shutdown();
+            try {
+                if (!service.awaitTermination(10, java.util.concurrent.TimeUnit.SECONDS)) {
+                    service.shutdownNow();
+                }
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+                service.shutdownNow();
+            }
+        }
     }
+
 
     private Flux<Void> listenRetryRepeat() {
         return listen()

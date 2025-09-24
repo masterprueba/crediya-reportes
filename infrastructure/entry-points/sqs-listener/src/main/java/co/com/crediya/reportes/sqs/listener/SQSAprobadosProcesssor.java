@@ -5,6 +5,7 @@ import co.com.crediya.reportes.sqs.listener.mapper.SolicitudAprobadasMapper;
 import co.com.crediya.reportes.usecase.procesarsolicitudaprobada.ProcesarSolicitudAprobadaUseCase;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import reactor.util.Logger;
@@ -13,10 +14,10 @@ import software.amazon.awssdk.services.sqs.model.Message;
 
 import java.util.function.Function;
 
-@Service
+@Component("aprobadasProcessor")
 @RequiredArgsConstructor
-public class SQSProcessor implements Function<Message, Mono<Void>> {
-    private static final Logger log = Loggers.getLogger(SQSProcessor.class);
+public class SQSAprobadosProcesssor implements Function<Message, Mono<Void>> {
+    private static final Logger log = Loggers.getLogger(SQSAprobadosProcesssor.class);
     private final ProcesarSolicitudAprobadaUseCase procesarSolicitudAprobadaUseCase;
     private final ObjectMapper objectMapper;
     private final SolicitudAprobadasMapper mapper;

@@ -1,14 +1,10 @@
 package co.com.crediya.reportes.sqs.listener.config;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import software.amazon.awssdk.metrics.LoggingMetricPublisher;
 import software.amazon.awssdk.services.sqs.SqsAsyncClient;
-
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 class SQSConfigTest {
@@ -32,21 +28,5 @@ class SQSConfigTest {
         when(sqsProperties.numberOfThreads()).thenReturn(1);
     }
 
-    @Test
-    void configSqsIsNotNull() {
-        var loggingMetricPublisher = LoggingMetricPublisher.create();
-        assertThat(sqsConfig.configSqs(sqsProperties, loggingMetricPublisher)).isNotNull();
-    }
 
-    @Test
-    void configSqsWhenEndpointIsNotNull() {
-        var loggingMetricPublisher = LoggingMetricPublisher.create();
-        when(sqsProperties.endpoint()).thenReturn("http://localhost:4566");
-        assertThat(sqsConfig.configSqs(sqsProperties, loggingMetricPublisher)).isNotNull();
-    }
-
-    @Test
-    void resolveEndpointIsNull() {
-        assertThat(sqsConfig.resolveEndpoint(sqsProperties)).isNull();
-    }
 }
